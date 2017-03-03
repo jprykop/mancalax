@@ -1,0 +1,10 @@
+INSTALL
+MANIFEST
+Makefile.PL
+README.md
+lib/Games/MancalaX.pm
+lib/Games/MancalaX/Game.pm
+lib/Games/MancalaX/Player.pm
+lib/Games/MancalaX/Slot.pm
+script/mancalax
+t/basic.t

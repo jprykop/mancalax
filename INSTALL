@@ -1,0 +1,12 @@
+Install using the regular perl package installation commands from the
+top directory of the project:
+
+perl Makefile.PL
+make
+make test
+make install
+
+Depending on your system privs, that last command might need to be run as sudo.
+
+This will install modules in the Games::MancalaX namespace, and the
+mancalax command line interface.

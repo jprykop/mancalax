@@ -1,0 +1,57 @@
+#!/usr/bin/perl
+
+use Games::MancalaX;
+
+my $game = Games::MancalaX->newgame;
+
+print "Welcome to Mancala!\n\n";
+
+while (!$game->gameover) {
+  print twoplayerboard($game) . "\n";
+  print ' 'x3;
+  foreach my $playnum (1..$game->num_slots) {
+    my $playchar = $game->player->playnum2slot($playnum)->tokens ? $playnum : '*';
+    print sprintf("%-3s",$playchar);
+  }
+  print "   <-- select a number to play\n\n";
+  print "Player ".$game->playernum.": ";
+  my $playnum = <STDIN>;
+  chomp($playnum);
+  unless ($game->player->playnum2slot($playnum)->tokens) {
+    print "Invalid play!\n\n";
+    next; 
+  }
+  $game->play($playnum);
+  print "\n";
+}
+
+print twoplayerboard($game) . "\n\n";
+foreach my $winner ($game->winners) {
+  print "PLAYER ".$winner->playernum." WINS!!!\n";
+}
+
+print "\nGame String:\n".$game->gamestr."\n";
+
+exit();
+
+sub twoplayerboard {
+  my $game = shift;
+  my $player = $game->player;
+  my $nextplayer = $game->nextplayer;
+  my $out;
+  $out .= ' 'x3;
+  foreach my $slot (reverse @{$nextplayer->slots}) {
+    $out .= sprintf("%-3s",$slot->tokens);
+  }
+  $out .= "\n";
+  $out .= sprintf("%-3s",$nextplayer->score);
+  $out .= ' 'x(3*$game->num_slots);
+  $out .= sprintf("%-3s",$player->score);
+  $out .= "\n";
+  $out .= ' 'x3;
+  foreach my $slot (@{$player->slots}) {
+    $out .= sprintf("%-3s",$slot->tokens);
+  }
+  $out .= "\n";
+  return $out;
+}
